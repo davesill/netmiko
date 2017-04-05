@@ -1,8 +1,9 @@
 import re
+from netmiko.cisco_base_connection import CiscoTelnetConnection
 from netmiko.cisco_base_connection import CiscoSSHConnection
 
 
-class BrocadeFastironSSH(CiscoSSHConnection):
+class BrocadeFastironTelnet(CiscoTelnetConnection):
     """Brocade FastIron aka ICX support."""
     def session_preparation(self):
         """FastIron requires to be enable mode to disable paging."""
@@ -14,4 +15,4 @@ class BrocadeFastironSSH(CiscoSSHConnection):
     def normalize_linefeeds(a_string):
         """Convert '\r\n\r\n', '\r\r\n','\r\n', '\n\r' to '\n."""
         newline = re.compile(r'(\r\n\r\n|\r\r\n|\r\n|\n\r|\r)')
-        return newline.sub('\n', a_string)
+        return newline.sub('\r\n', a_string)
